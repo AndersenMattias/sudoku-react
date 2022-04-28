@@ -1,12 +1,12 @@
 export const SUDOKU = {
     beginnerBoard:  () => {
-      return fetch(`http://localhost:5000/beginner-game`);
+      return fetch(`https://sudoku-react-nodejs.herokuapp.com/beginner-game`);
     },
     intermediateBoard:  () => {
-      return fetch(`http://localhost:5000/intermediate-game`);
+      return fetch(`https://sudoku-react-nodejs.herokuapp.com/intermediate-game`);
     },
     masterBoard:  () => {
-      return fetch(`http://localhost:5000/master-game`);
+      return fetch(`https://sudoku-react-nodejs.herokuapp.com/master-game`);
     },
    
   };
