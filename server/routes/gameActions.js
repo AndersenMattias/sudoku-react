@@ -16,7 +16,12 @@ export function onCheckValidation(grid) {
     return false;
   }
 
-router.post("/solve", (req, res) => {
+  
+router.post("/solve/:id", (req, res) => {
+    console.log(req.body)
+    console.log(req.params)
+    const id = parseInt(req.params.id);
+    console.log(id)
     let gameBoard = [];
     let gameStatus;
     let solvedSudoku;

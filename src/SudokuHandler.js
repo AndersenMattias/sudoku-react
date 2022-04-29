@@ -16,16 +16,7 @@ import {SUDOKU} from './components/Api/api'
     }
   }
 
-  export async function onValidateSudoku(grid) {
-    console.log('i sudoku handlern')
-    try {
-      const response = await SUDOKU.validateBoard(grid);
-      const data = await response.json();
-      return data.status;
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
 
 
 

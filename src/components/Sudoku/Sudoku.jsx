@@ -48,7 +48,17 @@ const Sudoku = () => {
     copyArrFromTo(newGrid, initialGrid.current);  
     setGameWonMsg('');
     setGrid(newGrid);  
+  }
 
+  async function onValidateSudoku() {
+    console.log('i sudoku validate')
+    try {
+      const response = await SUDOKU.validateBoard(grid);
+      const data = await response.json();
+      return data.status;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function onHandleBtnAction(action) {
