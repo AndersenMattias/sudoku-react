@@ -16,9 +16,9 @@ import {SUDOKU} from '../src/components/Api/api'
     }
   }
 
-  async function fetchBoard(sudoku, fetch) {
+  function fetchBoard(sudoku) {
     try {
-      const response = await fetch(sudoku)
+      const response = await sudoku;
       const data = await response.json();
       return data.game;
     } catch (e) {
@@ -26,7 +26,7 @@ import {SUDOKU} from '../src/components/Api/api'
     }
   }
 
-  // Call sudoku board depending on which btn choosen
+  // Call soduko board depending on which btn choosen
   export async function onCreateNewGame(lvl) {     
     switch (lvl) {
       case 1:
@@ -34,11 +34,23 @@ import {SUDOKU} from '../src/components/Api/api'
         break;
 
       case 2:
-        fetchBoard(SUDOKU.intermediateBoard());      
+        try {
+          const response = await SUDOKU.intermediateBoard();
+          const data = await response.json();
+          return data.game;
+        } catch (e) {
+          console.log(e);
+        }
         break;
 
       case 3:
-        fetchBoard(SUDOKU.masterBoard());  
+        try {
+          const response = await SUDOKU.masterBoard();
+          const data = await response.json();
+          return data.game;
+        } catch (e) {
+          console.log(e);
+        }
         break;
         default:
           throw new Error("Invalid action");
