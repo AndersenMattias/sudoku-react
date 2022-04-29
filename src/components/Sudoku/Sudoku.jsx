@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-import {GridLayout,  copyArrFromTo,  onCreateNewGame} from '../../SodukoHandler'
+import {GridLayout,  copyArrFromTo,  onCreateNewGame, onValidateSudoku} from '../../SodukoHandler'
 
 import GameBoard from "../GameBoard/GameBoard";
 import GameBoardButtons from "../GameBoardButtons/GameBoardButtons";
@@ -10,7 +10,7 @@ import GameLvlButtons from "../GameLvlButtons/GameLvlButtons";
 
 const Sudoku = () => {
   const [grid, setGrid] = useState(GridLayout);
-  const [gameStatus, setGameStatus] = useState('You solved the Soduku!');
+  const [gameWonMsg, setGameWonMsg] = useState('You solved the Sudoku!');
   const initialGrid = useRef(GridLayout());
 
 
@@ -31,25 +31,22 @@ const Sudoku = () => {
     let newGrid;
     switch (action) {
       case 'beginner':
-      newGrid = await onCreateNewGame(lvl);
-       
+      newGrid = await onCreateNewGame(lvl);       
       break;
 
       case 'intermediate':
-        newGrid = await onCreateNewGame(lvl);
-              
+        newGrid = await onCreateNewGame(lvl);              
         break;
 
       case 'master':
-          newGrid = await onCreateNewGame(lvl);
-          
+          newGrid = await onCreateNewGame(lvl);          
           break;
 
         default:
-          throw new Error("Invalid action");
+          throw new Error('Invalid action');
     }
     copyArrFromTo(newGrid, initialGrid.current);  
-    setGameStatus('');
+    setGameWonMsg('');
     setGrid(newGrid);  
 
   }
@@ -57,23 +54,27 @@ const Sudoku = () => {
   async function onHandleBtnAction(action) {
     let newGrid;
     switch (action) {
+      case 'solveBoard':
+        newGrid = await onValidateSudoku();
+        setGrid(newGrid);
+        break;
 
-      case "clear":
+      case 'clear':
         newGrid = GridLayout();
         copyArrFromTo(newGrid, initialGrid.current);
         setGrid(newGrid);
-        setGameStatus('');
+        setGameWonMsg('');
         break;
      
       default:
-        throw new Error("Invalid action");
+        throw new Error('Invalid action');
     }
   }
 
   
 
   return (
-    <div className="sudoku-wrapper">
+    <div className='sudoku-wrapper'>
       <h1>Soduku</h1>
       
         <GameLvlButtons onHandleChoosenLvl={onHandleChoosenLvl}   />

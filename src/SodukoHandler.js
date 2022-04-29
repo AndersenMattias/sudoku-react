@@ -16,9 +16,37 @@ import {SUDOKU} from '../src/components/Api/api'
     }
   }
 
-  async function fetchBoard(sudoku) {
+  export async function onValidateSudoku(grid) {
     try {
-      const response = await sudoku;
+      const response = await SUDOKU.validateBoard(grid);
+      const data = await response.json();
+      return data.status;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function onSolveSudoku(grid) {
+    try {
+      const response = await SUDOKU.solveBoard(grid);
+      const data = await response.json();
+
+      if (data.status) {
+        setPuzzleStatus("** SOLVED **");
+        alert('Congratulations, you did it!')
+        return data.solution;
+      } else {
+        setPuzzleStatus("** UNSOLVABLE **");
+        return grid;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  export async function fetchBoard(board) {
+    try {
+      const response = await SUDOKU.intermediateBoard();
       const data = await response.json();
       return data.game;
     } catch (e) {
@@ -26,11 +54,17 @@ import {SUDOKU} from '../src/components/Api/api'
     }
   }
 
-  // Call soduko board depending on which btn choosen
+  // Call sudoku board depending on which btn choosen
   export async function onCreateNewGame(lvl) {     
     switch (lvl) {
       case 1:
-        fetchBoard(SUDOKU.beginnerBoard());
+        try {
+          const response = await SUDOKU.beginnerBoard();
+          const data = await response.json();
+          return data.game;
+        } catch (e) {
+          console.log(e);
+        }
         break;
 
       case 2:
