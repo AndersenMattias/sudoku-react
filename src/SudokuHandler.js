@@ -1,4 +1,4 @@
-import {SUDOKU} from '../src/components/Api/api'
+import {SUDOKU} from './components/Api/api'
 
 // fill gridArray with numbers
     export function GridLayout() {

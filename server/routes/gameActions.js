@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { SUDUKO } = require('../SudokuHandler');
 
 const router = express.Router()
 
@@ -8,30 +9,33 @@ function copyArrFromTo(from, to) {
     }
   }
 
+function onCheckValidation(grid) {
+    if (SUDUKO.isValidSudoku(grid)) {
+      return true;
+    }
+    return false;
+  }
+
 router.post("/solve", (req, res) => {
     let gameBoard = [];
     let gameStatus;
-    
-   copyArrFromTo(req.body.board, gameBoard);
-    let sudoku = new Sudoku(gameBoard);
-    let solution = sudoku.isSolvable();
     let solvedSudoku;
+    copyArrFromTo(req.body.board, gameBoard);
+    
+    let sudoku = req.body.board;
+    //check if board is validGame
+    let solution = sudoku.onCheckValidation();
   
     if (solution) {
-      solvedSudoku = sudoku.solvedPuzzle;
+        console.log('if' + 'spel löst')
+      solvedSudoku = gameBoard;
       gameStatus = true;
     } else {
+        console.log('else' + 'spel inte löst')
       solvedSudoku = req.body.board;
       gameStatus = false;
     }
     
-    res.status(200).send({ solution: solvedSudoku, status: status });
+    res.status(200).send({ solution: solvedSudoku, status: gameStatus });
   });
   
-  router.post("/validate/:id", (req, res) => {
-    let gameBoard = [];
-    let id = req.body.id;
-    console.log(id, req)
-   copyArrFromTo(req.body.board, gameBoard);
-    res.status(200).send({ status: 'validate' });
-  });
