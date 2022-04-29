@@ -23,6 +23,7 @@ import {SUDOKU} from '../src/components/Api/api'
         try {
           const response = await SUDOKU.beginnerBoard();
           const data = await response.json();
+          alert('start beginner?')
           return data.game;
         } catch (error) {
           console.log(error);
@@ -33,6 +34,7 @@ import {SUDOKU} from '../src/components/Api/api'
         try {
           const response = await SUDOKU.intermediateBoard();
           const data = await response.json();
+          alert('start intermediate?')
           return data.game;
         } catch (error) {
           console.log(error);
@@ -43,6 +45,7 @@ import {SUDOKU} from '../src/components/Api/api'
         try {
           const response = await SUDOKU.masterBoard();
           const data = await response.json();
+          alert('start master?')
           return data.game;
         } catch (error) {
           console.log(error);
