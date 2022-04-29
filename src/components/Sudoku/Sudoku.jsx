@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import {GridLayout,  copyArrFromTo,  onCreateNewGame, onValidateSudoku} from '../../SudokuHandler'
+import { SUDOKU } from "../Api/api";
 
 import GameBoard from "../GameBoard/GameBoard";
 import GameBoardButtons from "../GameBoardButtons/GameBoardButtons";
