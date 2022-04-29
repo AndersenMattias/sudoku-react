@@ -16,7 +16,7 @@ import {SUDOKU} from '../src/components/Api/api'
     }
   }
 
-  function fetchBoard(sudoku) {
+  async function fetchBoard(sudoku) {
     try {
       const response = await sudoku;
       const data = await response.json();
