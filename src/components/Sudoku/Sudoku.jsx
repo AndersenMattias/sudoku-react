@@ -12,7 +12,9 @@ import GameLvlButtons from "../GameLvlButtons/GameLvlButtons";
 const Sudoku = () => {
   const [grid, setGrid] = useState(GridLayout);
   const [gameWonMsg, setGameWonMsg] = useState('You solved the Sudoku!');
-  const [boardId, setBoardId] = useState()
+  const [beginnerId, setBeginnerId] = useState();
+  const [intermediateId, setIntermediateId] = useState();
+  const [masterId, setMasterId] = useState();
   const initialGrid = useRef(GridLayout());
 
 
@@ -36,8 +38,8 @@ const Sudoku = () => {
           try {
             const response = await SUDOKU.beginnerBoard();
             const data = await response.json();
-            setBoardId(data.id);
-            console.log(boardId);
+            setBeginnerId(data.id);
+            console.log(beginnerId);
             return data.game;
           } catch (e) {
             console.log(e);
@@ -48,7 +50,8 @@ const Sudoku = () => {
           try {
             const response = await SUDOKU.intermediateBoard();
             const data = await response.json();
-            setBoardId(data.id);
+            setIntermediateId(data.id);
+            console.log(intermediateId);
             return data.game;
           } catch (e) {
             console.log(e);
@@ -59,7 +62,8 @@ const Sudoku = () => {
           try {
             const response = await SUDOKU.masterBoard();
             const data = await response.json();
-            setBoardId(data.id);
+            setMasterId(data.id);
+            console.log(masterId);
             return data.game;
           } catch (e) {
             console.log(e);
