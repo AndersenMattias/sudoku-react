@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-import {GridLayout,  copyArrFromTo,  onCreateNewGame, onValidateSudoku} from '../../SodukoHandler'
+import {GridLayout,  copyArrFromTo,  onCreateNewGame, onValidateSudoku} from '../../SudokuHandler'
 
 import GameBoard from "../GameBoard/GameBoard";
 import GameBoardButtons from "../GameBoardButtons/GameBoardButtons";
