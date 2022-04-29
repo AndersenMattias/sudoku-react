@@ -18,6 +18,7 @@ export function onCheckValidation(grid) {
 
   
 router.post("/solve/:id", (req, res) => {
+    console.log('Hej Christian')
     console.log(req)
     let gameBoard = [];
     let gameStatus;
