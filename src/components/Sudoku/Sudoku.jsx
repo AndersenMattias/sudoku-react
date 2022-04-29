@@ -76,17 +76,14 @@ const Sudoku = () => {
     switch (action) {
       case 'beginner':
       newGrid = await onCreateNewGame(lvl);     
-      console.log(beginnerId);
       break;
 
       case 'intermediate':
         newGrid = await onCreateNewGame(lvl);   
-        console.log(intermediateId);
         break;
 
       case 'master':
           newGrid = await onCreateNewGame(lvl);    
-          console.log(masterId);
           break;
 
         default:

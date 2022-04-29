@@ -8,11 +8,12 @@ export const SUDOKU = {
     masterBoard:  () => {
       return fetch(`https://sudoku-react-nodejs.herokuapp.com/master-game`);
     },
-    solveBoard: (grid) => {
+    solveBoard: (id, grid) => {
       const data = {
+        id,
         board: grid,
       };
-      return fetch(`https://sudoku-react-nodejs.herokuapp.com/solve/:id`, {
+      return fetch(`https://sudoku-react-nodejs.herokuapp.com/solve/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
