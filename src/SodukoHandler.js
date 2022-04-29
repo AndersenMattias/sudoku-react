@@ -26,23 +26,7 @@ import {SUDOKU} from '../src/components/Api/api'
     }
   }
 
-  async function onSolveSudoku(grid) {
-    try {
-      const response = await SUDOKU.solveBoard(grid);
-      const data = await response.json();
 
-      if (data.status) {
-        setPuzzleStatus("** SOLVED **");
-        alert('Congratulations, you did it!')
-        return data.solution;
-      } else {
-        setPuzzleStatus("** UNSOLVABLE **");
-        return grid;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   export async function fetchBoard(board) {
     try {
