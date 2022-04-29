@@ -55,19 +55,22 @@ const beginnerSoduku =
 
 
 router.get("/beginner-game", (req, res) => {
+    let id = beginnerSoduku.id;
     let sodukuOne = beginnerSoduku.board;
     console.log()
-    res.status(200).send({ game: sodukuOne });
+    res.status(200).send({ id, game: sodukuOne });
   });
 
 router.get("/intermediate-game", (req, res) => {
+  let id = intermediateSoduku.id;
     let sodukuTwo = intermediateSoduku.board;
-    res.status(200).send({ game: sodukuTwo });
+    res.status(200).send({ id, game: sodukuTwo });
   });
   
 router.get("/master-game", (req, res) => {
+  let id = sodukuMaster.id;
     let sodukuThree = sodukuMaster.board;
-    res.status(200).send({ game: sodukuThree });
+    res.status(200).send({ id, game: sodukuThree });
   });
   
 

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-import {GridLayout,  copyArrFromTo,  onCreateNewGame, onValidateSudoku} from '../../SudokuHandler'
+import {GridLayout,  copyArrFromTo, onValidateSudoku} from '../../SudokuHandler'
 import { SUDOKU } from "../Api/api";
 
 import GameBoard from "../GameBoard/GameBoard";
@@ -12,6 +12,7 @@ import GameLvlButtons from "../GameLvlButtons/GameLvlButtons";
 const Sudoku = () => {
   const [grid, setGrid] = useState(GridLayout);
   const [gameWonMsg, setGameWonMsg] = useState('You solved the Sudoku!');
+  const [boardId, setBoardId] = useState()
   const initialGrid = useRef(GridLayout());
 
 
@@ -27,6 +28,47 @@ const Sudoku = () => {
       }
     }
   }
+
+    // Call sudoku board depending on which btn choosen    
+    async function onCreateNewGame(lvl) {     
+      switch (lvl) {
+        case 1:
+          try {
+            const response = await SUDOKU.beginnerBoard();
+            const data = await response.json();
+            setBoardId(data.id);
+            console.log(boardId);
+            return data.game;
+          } catch (e) {
+            console.log(e);
+          }
+          break;
+  
+        case 2:
+          try {
+            const response = await SUDOKU.intermediateBoard();
+            const data = await response.json();
+            setBoardId(data.id);
+            return data.game;
+          } catch (e) {
+            console.log(e);
+          }
+          break;
+  
+        case 3:
+          try {
+            const response = await SUDOKU.masterBoard();
+            const data = await response.json();
+            setBoardId(data.id);
+            return data.game;
+          } catch (e) {
+            console.log(e);
+          }
+          break;
+          default:
+            throw new Error("Invalid action");
+      }   
+    }
 
   async function onHandleChoosenLvl(action, lvl) {
     let newGrid;

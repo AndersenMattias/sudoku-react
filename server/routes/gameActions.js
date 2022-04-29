@@ -18,10 +18,6 @@ export function onCheckValidation(grid) {
 
   
 router.post("/solve/:id", (req, res) => {
-    console.log(req.body)
-    console.log(req.params)
-    const id = parseInt(req.params.id);
-    console.log(id)
     let gameBoard = [];
     let gameStatus;
     let solvedSudoku;
@@ -29,7 +25,7 @@ router.post("/solve/:id", (req, res) => {
     
     let sudoku = req.body.board;
     //check if board is validGame
-    let solution = sudoku.onCheckValidation();
+    let solution = sudoku.onCheckValidation(req.body.board);
   
     if (solution) {
         console.log('if' + 'spel löst')
