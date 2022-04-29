@@ -54,7 +54,7 @@ const Sudoku = () => {
   async function onHandleBtnAction(action) {
     let newGrid;
     switch (action) {
-      case 'solveBoard':
+      case 'solve':
         newGrid = await onValidateSudoku();
         setGrid(newGrid);
         break;
