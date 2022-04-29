@@ -38,6 +38,7 @@ const Sudoku = () => {
           try {
             const response = await SUDOKU.beginnerBoard();
             const data = await response.json();
+            console.log(data.id)
             setBeginnerId(data.id);
             return data.game;
           } catch (e) {
@@ -49,6 +50,7 @@ const Sudoku = () => {
           try {
             const response = await SUDOKU.intermediateBoard();
             const data = await response.json();
+            console.log(data.id)
             setIntermediateId(data.id);
             return data.game;
           } catch (e) {
@@ -60,6 +62,7 @@ const Sudoku = () => {
           try {
             const response = await SUDOKU.masterBoard();
             const data = await response.json();
+            console.log(data.id)
             setMasterId(data.id);
             return data.game;
           } catch (e) {
