@@ -13,7 +13,7 @@ export const SUDOKU = {
         id,
         board: grid,
       };
-      return fetch(`https://sudoku-react-nodejs.herokuapp.com/solve/`, {
+      return fetch(`https://sudoku-react-nodejs.herokuapp.com/solve/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -97,10 +97,10 @@ const Sudoku = () => {
     setGrid(newGrid);  
   }
 
-  async function onValidateSudoku() {
+  async function onSolveSudoku(id) {
     console.log('i sudoku validate')
     try {
-      const response = await SUDOKU.validateBoard(grid);
+      const response = await SUDOKU.solveBoard(id, grid);
       const data = await response.json();
       return data.status;
     } catch (error) {
@@ -112,8 +112,10 @@ const Sudoku = () => {
     let newGrid;
     switch (action) {
       case 'solve':
-        newGrid = await onValidateSudoku();
-        setGrid(newGrid);
+        if (beginnerId != undefined) {
+          newGrid = await onSolveSudoku(beginnerId);
+          setGrid(newGrid);
+        }
         break;
 
       case 'clear':
