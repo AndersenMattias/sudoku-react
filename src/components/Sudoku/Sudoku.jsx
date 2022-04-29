@@ -112,10 +112,8 @@ const Sudoku = () => {
     let newGrid;
     switch (action) {
       case 'solve':
-        if (beginnerId != undefined) {
-          newGrid = await onSolveSudoku(beginnerId);
+          newGrid = await onSolveSudoku();
           setGrid(newGrid);
-        }
         break;
 
       case 'clear':
