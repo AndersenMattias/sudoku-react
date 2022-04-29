@@ -16,7 +16,7 @@ import {SUDOKU} from '../src/components/Api/api'
     }
   }
 
-  function fetchBoard(sudoku, fetch) {
+  async function fetchBoard(sudoku, fetch) {
     try {
       const response = await fetch(sudoku)
       const data = await response.json();
