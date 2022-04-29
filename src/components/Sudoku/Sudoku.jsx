@@ -38,38 +38,33 @@ const Sudoku = () => {
           try {
             const response = await SUDOKU.beginnerBoard();
             const data = await response.json();
-
+            setBeginnerId(data.id);
             return data.game;
           } catch (e) {
             console.log(e);
           }
-          setBeginnerId(data.id);
-          console.log(beginnerId);
           break;
   
         case 2:
           try {
             const response = await SUDOKU.intermediateBoard();
             const data = await response.json();
+            setIntermediateId(data.id);
             return data.game;
           } catch (e) {
             console.log(e);
           }
-          setIntermediateId(data.id);
-          console.log(intermediateId);
           break;
   
         case 3:
           try {
             const response = await SUDOKU.masterBoard();
             const data = await response.json();
-
+            setMasterId(data.id);
             return data.game;
           } catch (e) {
             console.log(e);
           }
-          setMasterId(data.id);
-          console.log(masterId);
           break;
           default:
             throw new Error("Invalid action");
@@ -80,15 +75,18 @@ const Sudoku = () => {
     let newGrid;
     switch (action) {
       case 'beginner':
-      newGrid = await onCreateNewGame(lvl);       
+      newGrid = await onCreateNewGame(lvl);     
+      console.log(beginnerId);
       break;
 
       case 'intermediate':
-        newGrid = await onCreateNewGame(lvl);              
+        newGrid = await onCreateNewGame(lvl);   
+        console.log(intermediateId);
         break;
 
       case 'master':
-          newGrid = await onCreateNewGame(lvl);          
+          newGrid = await onCreateNewGame(lvl);    
+          console.log(masterId);
           break;
 
         default:
