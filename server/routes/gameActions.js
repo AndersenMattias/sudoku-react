@@ -9,7 +9,7 @@ function copyArrFromTo(from, to) {
     }
   }
 
-function onCheckValidation(grid) {
+export function onCheckValidation(grid) {
     if (SUDUKO.isValidSudoku(grid)) {
       return true;
     }

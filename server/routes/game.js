@@ -56,6 +56,7 @@ const beginnerSoduku =
 
 router.get("/beginner-game", (req, res) => {
     let sodukuOne = beginnerSoduku.board;
+    console.log()
     res.status(200).send({ game: sodukuOne });
   });
 
