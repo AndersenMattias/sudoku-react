@@ -1,29 +1,73 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 
-import {GridLayout,  copyArrFromTo, onValidateSudoku} from '../../SudokuHandler'
-import { SUDOKU } from "../Api/api";
+import { getDeepCopy, GridLayout } from '../../SudokuHandler';
+import { SUDOKU } from '../Api/api';
 
-import GameBoard from "../GameBoard/GameBoard";
-import GameBoardButtons from "../GameBoardButtons/GameBoardButtons";
-import GameLvlButtons from "../GameLvlButtons/GameLvlButtons";
-
-
+import GameBoard from '../GameBoard/GameBoard';
+import GameBoardButtons from '../GameBoardButtons/GameBoardButtons';
+import GameLvlButtons from '../GameLvlButtons/GameLvlButtons';
 
 const Sudoku = () => {
-  const [grid, setGrid] = useState(GridLayout);
+  const [grid, setGrid] = useState(GridLayout());
+  const [initialGrid, setInitialGrid] = useState();
   const [gameWonMsg, setGameWonMsg] = useState('You solved the Sudoku!');
-  const [beginnerId, setBeginnerId] = useState();
-  const [intermediateId, setIntermediateId] = useState();
-  const [masterId, setMasterId] = useState();
-  const initialGrid = useRef(GridLayout());
+  const [correctInput, setCorrectInput] = useState();
+  const [gameStarted, setGameStarted] = useState(false);
 
+  useEffect(() => {
+    const fetchSuduko = async () => {
+      try {
+        const response = await SUDOKU.getSudoku();
+        const data = await response.json();
+        console.log(data.game);
+        setInitialGrid(data.game);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSuduko();
+  }, []);
 
-    // check if input is 0-9 and nothing else like -2, letters like a A 
+  const buildBoard = (tilesToRemove) => {
+    let remainingTiles = tilesToRemove;
+    console.log(initialGrid);
+    console.log(grid);
+    // let constructedBoard = [...initialGrid];
+    // let initialBoard = [...initialGrid];
+
+    const copiedArr = JSON.parse(JSON.stringify(initialGrid));
+
+    while (remainingTiles > 0) {
+      for (let row = 0; row < copiedArr[0].length; row++) {
+        let currentRow = copiedArr[row].map((col, colIdx) => {
+          if (colIdx < 10) {
+            let chance = Math.random() * 100;
+            if (chance > 90) {
+              copiedArr[row][colIdx] = 0;
+              remainingTiles -= 1;
+            }
+          }
+        });
+      }
+    }
+    console.log(copiedArr);
+    setGrid(copiedArr);
+  };
+
+  console.log('initialGrid EFTER buildBoard' + initialGrid);
+  console.log('grid EFTER buildBoard' + grid);
+
+  // check if input is 0-9 and nothing else like -2, letters like a A
   // create new array from current with new inputs from row/col and set to state
   function onHandleChange(row, col, e) {
+    if (e.target.value === '') {
+      const newGrid = [...grid];
+      newGrid[row][col] = 0;
+      setGrid(newGrid);
+    }
     const regex = /^[0-9\b]+$/;
     if (e.target.value === '' || regex.test(e.target.value)) {
-      if (Number(e.target.value) < 10 && initialGrid.current[row][col] === 0) {
+      if (Number(e.target.value) < 10 && grid[row][col] === 0) {
         const newGrid = [...grid];
         newGrid[row][col] = Number(e.target.value);
         setGrid(newGrid);
@@ -31,78 +75,31 @@ const Sudoku = () => {
     }
   }
 
-    // Call sudoku board depending on which btn choosen    
-    async function onCreateNewGame(lvl) {     
-      switch (lvl) {
-        case 1:
-          try {
-            const response = await SUDOKU.beginnerBoard();
-            const data = await response.json();
-            console.log(data.id)
-            setBeginnerId(data.id);
-            return data.game;
-          } catch (e) {
-            console.log(e);
-          }
-          break;
-  
-        case 2:
-          try {
-            const response = await SUDOKU.intermediateBoard();
-            const data = await response.json();
-            console.log(data.id)
-            setIntermediateId(data.id);
-            return data.game;
-          } catch (e) {
-            console.log(e);
-          }
-          break;
-  
-        case 3:
-          try {
-            const response = await SUDOKU.masterBoard();
-            const data = await response.json();
-            console.log(data.id)
-            setMasterId(data.id);
-            return data.game;
-          } catch (e) {
-            console.log(e);
-          }
-          break;
-          default:
-            throw new Error("Invalid action");
-      }   
-    }
-
   async function onHandleChoosenLvl(action, lvl) {
-    let newGrid;
     switch (action) {
       case 'beginner':
-      newGrid = await onCreateNewGame(lvl);     
-      break;
+        buildBoard(10);
+        break;
 
       case 'intermediate':
-        newGrid = await onCreateNewGame(lvl);   
+        buildBoard(20);
         break;
 
       case 'master':
-          newGrid = await onCreateNewGame(lvl);    
-          break;
+        buildBoard(30);
+        break;
 
-        default:
-          throw new Error('Invalid action');
+      default:
+        throw new Error('Invalid action');
     }
-    copyArrFromTo(newGrid, initialGrid.current);  
+    // getDeepCopy(newGrid, initialGrid.current);
     setGameWonMsg('');
-    setGrid(newGrid);  
   }
 
-  async function onSolveSudoku(id) {
-    console.log('i sudoku validate')
+  async function onSolveSudoku() {
     try {
-      const response = await SUDOKU.solveBoard(id, grid);
-      const data = await response.json();
-      return data.status;
+      setGrid(initialGrid);
+      console.log('initialGRID ' + initialGrid);
     } catch (error) {
       console.log(error);
     }
@@ -112,33 +109,51 @@ const Sudoku = () => {
     let newGrid;
     switch (action) {
       case 'solve':
-          newGrid = await onSolveSudoku();
-          setGrid(newGrid);
+        onSolveSudoku();
+        break;
+
+      case 'check':
+        try {
+          const response = await SUDOKU.validateBoard(grid);
+          const data = await response.json();
+          console.log(data);
+          setCorrectInput(data.result);
+          return data.result;
+        } catch (error) {
+          console.log(error);
+        }
         break;
 
       case 'clear':
         newGrid = GridLayout();
-        copyArrFromTo(newGrid, initialGrid.current);
+        // getDeepCopy(newGrid, initialGrid.current);
         setGrid(newGrid);
         setGameWonMsg('');
+        setGameStarted(false);
         break;
-     
+
       default:
         throw new Error('Invalid action');
     }
   }
 
-  
-
   return (
     <div className='sudoku-wrapper'>
       <h1>Soduku</h1>
-      
-        <GameLvlButtons onHandleChoosenLvl={onHandleChoosenLvl}   />
-        <GameBoard sudokuBoard={initialGrid.current} grid={grid} onHandleChange={onHandleChange} />
-        <GameBoardButtons onHandleBtnAction={onHandleBtnAction}  />
-    </div>
-  )
-}
 
-export default Sudoku
+      <GameLvlButtons
+        gameStarted={gameStarted}
+        onHandleChoosenLvl={onHandleChoosenLvl}
+      />
+      <GameBoard
+        initialGrid={initialGrid}
+        grid={grid}
+        onHandleChange={onHandleChange}
+        correctInput={correctInput}
+      />
+      <GameBoardButtons onHandleBtnAction={onHandleBtnAction} />
+    </div>
+  );
+};
+
+export default Sudoku;

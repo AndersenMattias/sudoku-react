@@ -1,12 +1,68 @@
-import React from "react";
-import SudokuTile from "../SudokuTile/SudokuTile";
+import React from 'react';
+import SudokuTile from '../SudokuTile/SudokuTile';
 
-const GameBoard = ({ sudokuBoard, grid, onHandleChange }) => {
-  return (
-    <div className="board-wrapper">
-      <SudokuTile sudokuBoard={sudokuBoard} grid={grid} onHandleChange={onHandleChange}  />
-    </div>
-  );
-}
+const GameBoard = ({ grid, onHandleChange, correctInput }) => {
+  if (grid == null) {
+    console.log('iF ');
+    return (
+      <div className='board-wrapper'>
+        <table className='grid-table'>
+          <tbody>
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((row, rowIndex) => {
+              return (
+                <tr
+                  key={rowIndex}
+                  className={(rowIndex + 1) % 3 === 0 ? 'bottom-border' : ''}
+                >
+                  {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((col, colIndex) => {
+                    return (
+                      <td
+                        key={rowIndex + colIndex}
+                        className={(col + 1) % 3 === 0 ? 'right-border' : ''}
+                      >
+                        <input className='tile' disabled={true} />
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  } else {
+    return (
+      <div className='board-wrapper'>
+        <table className='grid-table'>
+          <tbody>
+            {grid &&
+              grid.map((row, rowIndex) => {
+                return (
+                  <tr
+                    className={(rowIndex + 1) % 3 === 0 ? 'bottom-border' : ''}
+                    key={rowIndex}
+                  >
+                    {row.map((cell, columnIndex) => {
+                      return (
+                        <SudokuTile
+                          grid={grid}
+                          onHandleChange={onHandleChange}
+                          correctInput={correctInput}
+                          cell={cell}
+                          row={rowIndex}
+                          col={columnIndex}
+                        />
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+};
 
 export default GameBoard;

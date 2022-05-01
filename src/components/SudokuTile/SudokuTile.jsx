@@ -1,25 +1,16 @@
-import React from "react";
+import React from 'react';
 
-const SudokuTile = ({ sudokuBoard, grid, onHandleChange }) => {
-  return grid.map((row, rowIndex) => {
-    return row.map((col, colIndex) => {
-      return (
-        <input
-          className={
-            sudokuBoard[rowIndex][colIndex] !== 0
-              ? "initial"
-              : col !== 0
-              ? "empty taken"
-              : "empty"
-          }
-          value={col === 0 ? "" : col}
-          key={rowIndex + " " + colIndex}
-          type="text"
-          onChange={(e) => onHandleChange(rowIndex, colIndex, e)}
-        />
-      );
-    });
-  });
-}
+const SudokuTile = ({ grid, onHandleChange, correctInput, cell, row, col }) => {
+  return (
+    <td className={(col + 1) % 3 === 0 ? 'right-border' : ''}>
+      <input
+        className='tile'
+        type='text'
+        onChange={(e) => onHandleChange(row, col, e)}
+        value={cell ? cell : ''}
+      />
+    </td>
+  );
+};
 
 export default SudokuTile;
