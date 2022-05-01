@@ -1,12 +1,12 @@
 export const SUDOKU = {
   getSudoku: () => {
-    return fetch(`http://localhost:5000/sudoku/`);
+    return fetch(`https://sudoku-react-nodejs.herokuapp.com/sudoku/`);
   },
   solveBoard: (grid) => {
     const data = {
       board: grid,
     };
-    return fetch(`http://localhost:5000/solve`, {
+    return fetch(`https://sudoku-react-nodejs.herokuapp.com/solve/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export const SUDOKU = {
     const data = {
       board: grid,
     };
-    return fetch(`http://localhost:5000/check`, {
+    return fetch(`https://sudoku-react-nodejs.herokuapp.com/check/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -15,18 +15,6 @@ h1 {
 }
 
 
-.letsPlay-wrapper {
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.letsPlay-btnContainer{
-  align-self: center;
-}
 
 .playBtn {
   font-weight: bold;
@@ -40,21 +28,10 @@ h1 {
   width: 15rem;
 }
 
-.playBtn:hover {
-  background-color: #e7e7e7;
-  border: 1px solid red;
-}
-
-.tile {
-  width: 2em;
-  height: 2em;
-  font-size: 1.5em;
-  text-align: center;
-}
 
 table {
   font-size: 1.2em;
-  border: 3px solid black;
+  border: 5px solid black;
   border-collapse: collapse;
   background-color: rgb(182, 182, 182);
   margin: 0 auto;
@@ -62,16 +39,30 @@ table {
 }
 
 td {
-  padding: 0;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  user-select: none;
+  font-weight : bold;
 }
 
-tr {
-  border: 1px solid #141c3a;
+.right-border {
+  border-right: 5px solid rgb(0, 0, 0);
 }
 
-.site-wrapper {
+.bottom-border {
+  border-bottom: 5px solid black;
+}
+
+
+.cell {
+  width: 2em;
+  height: 2em;
+  font-size: 1.5em;
   text-align: center;
 }
+
+
 
 .sudoku-wrapper {
   display: flex;
@@ -81,13 +72,34 @@ tr {
   min-height: 100vh;
 }
 
+.cell-initial{
+  background-color: grey;
+  color: #ffffff;
+}
+
+.cell-hinted{
+  color: orange;
+  animation-name: hintAnimation;
+  animation-duration: 2s;
+  animation-timing-function: ease-out;
+}
+
+.cell-invalid {
+  background-color: red;
+
+}
+
+.cell-valid {
+  background-color: greenyellow;
+}
+
 .empty {
   width: 40px;
   height: 40px;
   text-align: center;
   font-size: 32px;
   outline: none;
-  border: 2px solid black;
+  border: 2px solid #ffffff;
   margin-left: -1px;
   margin-top: -1px;
 }
@@ -122,20 +134,9 @@ tr {
   align-items: center;
 }
 
-.gamelvl-buttonsWrapper{
+.difficulty-selectWrapper{
   display: flex;
-  justify-content: center;
-  gap: 2em;
-  padding-bottom: 2em;
-}
-
-
-.right-border {
-  border-right: 3px solid #141c3a;
-}
-
-.bottom-border {
-  border-bottom: 3px solid #141c3a;
+  gap: 3em;
 }
 
 
@@ -178,4 +179,9 @@ tr {
 
 .resetBtn {
   background-color: red;
+}
+
+@keyframes hintAnimation {
+  from {background-color: orange;}
+  to {background-color: initial;}
 }

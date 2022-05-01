@@ -1,9 +1,8 @@
 import React from 'react';
-import SudokuTile from '../SudokuTile/SudokuTile';
+import SudokuTile from '../SudokuTile';
 
-const GameBoard = ({ grid, onHandleChange, correctInput }) => {
+const GameBoard = ({ grid, onHandleChange, correctInput, setCorrectInput }) => {
   if (grid == null) {
-    console.log('iF ');
     return (
       <div className='board-wrapper'>
         <table className='grid-table'>
@@ -49,6 +48,7 @@ const GameBoard = ({ grid, onHandleChange, correctInput }) => {
                           grid={grid}
                           onHandleChange={onHandleChange}
                           correctInput={correctInput}
+                          setCorrectInput={setCorrectInput}
                           cell={cell}
                           row={rowIndex}
                           col={columnIndex}

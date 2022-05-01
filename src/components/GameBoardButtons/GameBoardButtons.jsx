@@ -1,36 +1,32 @@
-import React, { useState } from 'react';
-import { SUDOKU } from '../Api/api';
+import Button from 'components/Button';
+import React from 'react';
 
 const GameBoardButtons = ({ onHandleBtnAction }) => {
   return (
     <div className='sudoku-buttonsContainer'>
-      <button
-        type='button'
-        className='btn checkBtn'
+      <Button
+        buttonStyle='btn--warning'
         onClick={() => {
           onHandleBtnAction('check');
         }}
-      >
-        Check Soduku
-      </button>
-      <button
-        type='button'
-        className='btn solveBtn'
+        text='Check Soduku'
+      />
+
+      <Button
+        buttonStyle='btn--success'
         onClick={() => {
           onHandleBtnAction('solve');
         }}
-      >
-        Solve Soduku
-      </button>
-      <button
-        type='button'
-        className='btn resetBtn'
+        text='Solve Soduku'
+      />
+
+      <Button
+        buttonStyle='btn--danger'
         onClick={() => {
           onHandleBtnAction('clear');
         }}
-      >
-        Reset Board
-      </button>
+        text='Reset Board'
+      />
     </div>
   );
 };

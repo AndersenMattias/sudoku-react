@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import { getDeepCopy, GridLayout } from '../../SudokuHandler';
+import { getDeepCopy, GridLayout } from '../../Utility/SudukoGrid';
 import { SUDOKU } from '../Api/api';
 
-import GameBoard from '../GameBoard/GameBoard';
-import GameBoardButtons from '../GameBoardButtons/GameBoardButtons';
-import GameLvlButtons from '../GameLvlButtons/GameLvlButtons';
+import GameBoard from '../GameBoard';
+import GameBoardButtons from '../GameBoardButtons';
+import DifficultySelection from '../DifficultySelection';
 
 const Sudoku = () => {
   const [grid, setGrid] = useState(GridLayout());
@@ -19,7 +19,6 @@ const Sudoku = () => {
       try {
         const response = await SUDOKU.getSudoku();
         const data = await response.json();
-        console.log(data.game);
         setInitialGrid(data.game);
       } catch (error) {
         console.log(error);
@@ -30,11 +29,6 @@ const Sudoku = () => {
 
   const buildBoard = (tilesToRemove) => {
     let remainingTiles = tilesToRemove;
-    console.log(initialGrid);
-    console.log(grid);
-    // let constructedBoard = [...initialGrid];
-    // let initialBoard = [...initialGrid];
-
     const copiedArr = JSON.parse(JSON.stringify(initialGrid));
 
     while (remainingTiles > 0) {
@@ -50,12 +44,8 @@ const Sudoku = () => {
         });
       }
     }
-    console.log(copiedArr);
     setGrid(copiedArr);
   };
-
-  console.log('initialGrid EFTER buildBoard' + initialGrid);
-  console.log('grid EFTER buildBoard' + grid);
 
   // check if input is 0-9 and nothing else like -2, letters like a A
   // create new array from current with new inputs from row/col and set to state
@@ -92,14 +82,13 @@ const Sudoku = () => {
       default:
         throw new Error('Invalid action');
     }
-    // getDeepCopy(newGrid, initialGrid.current);
     setGameWonMsg('');
   }
 
   async function onSolveSudoku() {
     try {
+      alert(`Congratulations you solved the Suduko!`);
       setGrid(initialGrid);
-      console.log('initialGRID ' + initialGrid);
     } catch (error) {
       console.log(error);
     }
@@ -116,8 +105,7 @@ const Sudoku = () => {
         try {
           const response = await SUDOKU.validateBoard(grid);
           const data = await response.json();
-          console.log(data);
-          setCorrectInput(data.result);
+          setCorrectInput(data.validMove);
           return data.result;
         } catch (error) {
           console.log(error);
@@ -141,15 +129,15 @@ const Sudoku = () => {
     <div className='sudoku-wrapper'>
       <h1>Soduku</h1>
 
-      <GameLvlButtons
+      <DifficultySelection
         gameStarted={gameStarted}
         onHandleChoosenLvl={onHandleChoosenLvl}
       />
       <GameBoard
-        initialGrid={initialGrid}
         grid={grid}
         onHandleChange={onHandleChange}
         correctInput={correctInput}
+        setCorrectInput={setCorrectInput}
       />
       <GameBoardButtons onHandleBtnAction={onHandleBtnAction} />
     </div>

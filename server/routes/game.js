@@ -23,16 +23,23 @@ router.post('/check', (req, res) => {
     let result = [];
     let solutionToCheck = req.body.board;
     let solution = sudokuBoard;
+    let inputValue = false;
 
     for (let row = 0; row < solutionToCheck.length; row++) {
       let checkedRow = solutionToCheck[row].map((col, index) => {
-        if (col === 0) return 0;
-        if (col === solution[row][index]) return 1;
+        if (col === 0) {
+          return 0;
+        }
+        if (col === solution[row][index]) {
+          inputValue = true;
+          return 1;
+        }
+        inputValue = false;
         return -1;
       });
       result.push(checkedRow);
     }
-    res.status(200).send({ result: result });
+    res.status(200).send({ result: result, validMove: inputValue });
   } catch (e) {
     console.log(e);
     return;

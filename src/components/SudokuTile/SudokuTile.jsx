@@ -1,10 +1,26 @@
 import React from 'react';
 
-const SudokuTile = ({ grid, onHandleChange, correctInput, cell, row, col }) => {
+const SudokuTile = ({
+  grid,
+  onHandleChange,
+  correctInput,
+  setCorrectInput,
+  cell,
+  row,
+  col,
+}) => {
+  const getCellClassName = (cell) => {
+    let className = `cell 
+    ${cell === 0 ? 'cell-empty' : 'cell-initial'}
+    ${correctInput === false ? 'cell-invalid' : ''}
+    `;
+    return className;
+  };
+
   return (
     <td className={(col + 1) % 3 === 0 ? 'right-border' : ''}>
       <input
-        className='tile'
+        className={getCellClassName(cell)}
         type='text'
         onChange={(e) => onHandleChange(row, col, e)}
         value={cell ? cell : ''}
