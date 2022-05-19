@@ -1,5 +1,7 @@
 import React from 'react';
 
+import '../../styles/sudokuTile.scss';
+
 const SudokuTile = ({
   grid,
   onHandleChange,
