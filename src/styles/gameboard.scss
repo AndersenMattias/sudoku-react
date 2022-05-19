@@ -1,0 +1,15 @@
+@use '../styles/variables.scss' as var;
+
+.board-wrapper {
+  display: grid;
+  grid-template-columns: repeat(9, 0fr);
+  padding: 1em;
+
+  .right-border {
+    border-right: 5px solid var.$dark;
+  }
+
+  .bottom-border {
+    border-bottom: 5px solid var.$dark;
+  }
+}

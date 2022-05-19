@@ -1,0 +1,24 @@
+@use '../styles/variables.scss' as var;
+
+.cell {
+  width: 2em;
+  height: 2em;
+  font-size: 1.5em;
+  text-align: center;
+  border: 1px solid var.$dark;
+}
+
+.cell-hinted {
+  color: orange;
+  animation-name: hintAnimation;
+  animation-duration: 2s;
+  animation-timing-function: ease-out;
+}
+
+.cell-invalid {
+  background-color: red;
+}
+
+.cell-valid {
+  background-color: greenyellow;
+}
