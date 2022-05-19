@@ -1,4 +1,4 @@
-import './App.css';
+import './styles/base.scss';
 import Sudoku from './components/Sudoku/Sudoku';
 
 function App() {
