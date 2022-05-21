@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { GridLayout } from '../../utility/SudukoGrid';
-
 import GameBoard from '../GameBoard';
 import ActionsButtons from '../ActionsButtons';
 import DifficultyModal from 'components/DifficultyModal/DifficultyModal';
@@ -95,8 +93,6 @@ const Sudoku = () => {
     setGrid((currGrid) => {
       let newGrid = JSON.parse(JSON.stringify(currGrid));
       newGrid[place.row][place.col] = initialGrid[place.row][place.col];
-      console.log(newGrid[place.row][place.col]);
-      console.log(initialGrid[place.row][place.col]);
       return newGrid;
     });
     setHintsTaken((hints) => hints + 1);
@@ -134,7 +130,6 @@ const Sudoku = () => {
   }
 
   async function onHandleBtnAction(action) {
-    let newGrid;
     switch (action) {
       case 'solve':
         onSolveSudoku();
