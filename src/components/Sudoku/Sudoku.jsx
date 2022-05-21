@@ -1,18 +1,29 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { getDeepCopy, GridLayout } from '../../Utility/SudukoGrid';
+import { GridLayout } from '../../utility/SudukoGrid';
 import { SUDOKU } from '../Api/api';
 
 import GameBoard from '../GameBoard';
-import GameBoardButtons from '../GameBoardButtons';
-import DifficultySelection from '../DifficultySelection';
+import ActionsButtons from '../ActionsButtons';
+import DifficultyModal from 'components/DifficultyModal/DifficultyModal';
+import Button from 'components/Button';
+import GameWonModal from 'components/GameWonModal/GameWonModal';
 
 const Sudoku = () => {
-  const [grid, setGrid] = useState(GridLayout());
-  const [initialGrid, setInitialGrid] = useState();
-  const [gameWonMsg, setGameWonMsg] = useState('You solved the Sudoku!');
+  // layout
+  const [grid, setGrid] = useState();
+  const [initialGrid, setInitialGrid] = useState(null);
+  const [hintsTaken, setHintsTaken] = useState(0);
+
   const [correctInput, setCorrectInput] = useState();
+
+  const [gameMode, setGameMode] = useState('');
   const [gameStarted, setGameStarted] = useState(false);
+  const [isPlayerWon, setIsPlayerWon] = useState(false);
+
+  //modals
+  const [showDifficultyModal, setShowDifficultyModal] = useState(false);
+  const [showGameWonModal, setGameWonModal] = useState(false);
 
   useEffect(() => {
     const fetchSuduko = async () => {
@@ -45,6 +56,8 @@ const Sudoku = () => {
       }
     }
     setGrid(copiedArr);
+    setGameStarted(!gameStarted);
+    setShowDifficultyModal(!showDifficultyModal);
   };
 
   // check if input is 0-9 and nothing else like -2, letters like a A
@@ -65,29 +78,57 @@ const Sudoku = () => {
     }
   }
 
-  async function onHandleChoosenLvl(action, lvl) {
+  function getHint() {
+    let place = null;
+
+    while (!place) {
+      let col = Math.floor(Math.random() * 8) + 1;
+      let row = Math.floor(Math.random() * 8) + 1;
+      if (grid[row][col] === 0) {
+        place = { row, col };
+      }
+    }
+    /*
+    setTimeout(() => {
+      setGrid(grid);
+    }, 10000);
+    */
+
+    setGrid((currGrid) => {
+      let newGrid = JSON.parse(JSON.stringify(currGrid));
+      newGrid[place.row][place.col] = initialGrid[place.row][place.col];
+      console.log(newGrid[place.row][place.col]);
+      console.log(initialGrid[place.row][place.col]);
+      return newGrid;
+    });
+    setHintsTaken((hints) => hints + 1);
+  }
+
+  async function onHandleChoosenLvl(action) {
     switch (action) {
-      case 'beginner':
-        buildBoard(10);
-        break;
-
-      case 'intermediate':
-        buildBoard(20);
-        break;
-
-      case 'master':
+      case 'easy':
         buildBoard(30);
+        setGameMode('Easy');
+        break;
+
+      case 'medium':
+        buildBoard(50);
+        setGameMode('Medium');
+        break;
+
+      case 'hard':
+        buildBoard(90);
+        setGameMode('Hard');
         break;
 
       default:
         throw new Error('Invalid action');
     }
-    setGameWonMsg('');
   }
 
   async function onSolveSudoku() {
     try {
-      alert(`Congratulations you solved the Suduko!`);
+      setIsPlayerWon(true);
       setGrid(initialGrid);
     } catch (error) {
       console.log(error);
@@ -99,24 +140,17 @@ const Sudoku = () => {
     switch (action) {
       case 'solve':
         onSolveSudoku();
+        setGameWonModal(true);
+
         break;
 
-      case 'check':
-        try {
-          const response = await SUDOKU.validateBoard(grid);
-          const data = await response.json();
-          setCorrectInput(data.validMove);
-          return data.result;
-        } catch (error) {
-          console.log(error);
-        }
+      case 'hint':
+        getHint();
         break;
 
       case 'clear':
         newGrid = GridLayout();
-        // getDeepCopy(newGrid, initialGrid.current);
         setGrid(newGrid);
-        setGameWonMsg('');
         setGameStarted(false);
         break;
 
@@ -125,21 +159,59 @@ const Sudoku = () => {
     }
   }
 
+  function playAgain() {
+    let newGrid = GridLayout();
+    setGameWonModal(!showGameWonModal);
+    setShowDifficultyModal(!showDifficultyModal);
+    setGrid(newGrid);
+    setGameStarted(false);
+  }
+
   return (
     <div className='sudoku-wrapper'>
-      <h1>Soduku</h1>
+      <h1>Sudoku</h1>
 
-      <DifficultySelection
-        gameStarted={gameStarted}
-        onHandleChoosenLvl={onHandleChoosenLvl}
-      />
+      {showDifficultyModal && (
+        <DifficultyModal
+          onHandleChoosenLvl={onHandleChoosenLvl}
+          closeModal={() => setShowDifficultyModal((show) => !show)}
+        />
+      )}
+
       <GameBoard
         grid={grid}
         onHandleChange={onHandleChange}
         correctInput={correctInput}
         setCorrectInput={setCorrectInput}
       />
-      <GameBoardButtons onHandleBtnAction={onHandleBtnAction} />
+
+      {showGameWonModal && (
+        <GameWonModal
+          hintsTaken={hintsTaken}
+          gameMode={gameMode}
+          isPlayerWon={isPlayerWon}
+          closeModal={() => setGameWonModal((show) => !show)}
+          playAgain={playAgain}
+        />
+      )}
+
+      {gameStarted && (
+        <ActionsButtons
+          onHandleBtnAction={onHandleBtnAction}
+          showDifficultyModal={showDifficultyModal}
+          setShowDifficultyModal={setShowDifficultyModal}
+        />
+      )}
+
+      {!gameStarted && (
+        <Button
+          buttonStyle='btn--primary'
+          onClick={() => {
+            setShowDifficultyModal(!showDifficultyModal);
+          }}
+          text='New Game'
+        />
+      )}
     </div>
   );
 };
