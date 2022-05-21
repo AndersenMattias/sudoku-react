@@ -32,20 +32,34 @@ table {
   border-collapse: collapse;
   background-color: rgb(182, 182, 182);
   margin: 0 auto;
-}
 
-td {
-  width: 2rem;
-  height: 2rem;
-  text-align: center;
-  user-select: none;
-  font-weight: bold;
+  @include var.smallmobile {
+    border: 1px solid black;
+    font-size: 0.6em;
+  }
+  td {
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    user-select: none;
+    font-weight: bold;
+
+    @include var.smallmobile {
+      width: 1em;
+      height: 1em;
+    }
+  }
 }
 
 .sudoku-buttonsContainer {
   display: flex;
   justify-content: center;
   gap: 4em;
+
+  @include var.smallmobile {
+    flex-direction: column;
+    gap: 1.5em;
+  }
 }
 
 .playBtn {
@@ -63,6 +77,10 @@ td {
 .difficulty-selectWrapper {
   display: flex;
   gap: 3em;
+
+  @include var.smallmobile {
+    flex-direction: column;
+  }
 }
 
 .btn {

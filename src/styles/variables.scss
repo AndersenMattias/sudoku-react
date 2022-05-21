@@ -5,6 +5,7 @@ $danger: #eb3f27;
 $success: #75fa83;
 $white: #fdfdfd;
 $dark: #181717;
+$orange: orange;
 
 // Font Sizes
 $xxsFont: 12px;
@@ -27,7 +28,7 @@ $desktop: 1350px;
 }
 
 @mixin mobile {
-  @media (max-width: #{$tablet }) {
+  @media (max-width: #{$tablet}  ) {
     @content;
   }
 }
