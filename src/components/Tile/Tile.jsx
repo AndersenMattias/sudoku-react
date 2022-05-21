@@ -1,8 +1,8 @@
 import React from 'react';
 
-import '../../styles/sudokuTile.scss';
+import '../../styles/tile.scss';
 
-const SudokuTile = ({
+const Tile = ({
   grid,
   onHandleChange,
   correctInput,
@@ -31,4 +31,4 @@ const SudokuTile = ({
   );
 };
 
-export default SudokuTile;
+export default Tile;

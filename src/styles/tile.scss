@@ -8,6 +8,14 @@
   border: 1px solid var.$dark;
 }
 
+.cell-invalid {
+  background-color: red;
+}
+
+.cell-valid {
+  background-color: greenyellow;
+}
+
 .cell-hinted {
   color: orange;
   animation-name: hintAnimation;
@@ -15,10 +23,11 @@
   animation-timing-function: ease-out;
 }
 
-.cell-invalid {
-  background-color: red;
-}
-
-.cell-valid {
-  background-color: greenyellow;
+@keyframes hintAnimation {
+  from {
+    background-color: rgb(255, 165, 0);
+  }
+  to {
+    background-color: initial;
+  }
 }

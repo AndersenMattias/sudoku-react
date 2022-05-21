@@ -3,7 +3,7 @@
 .board-wrapper {
   display: grid;
   grid-template-columns: repeat(9, 0fr);
-  padding: 1em;
+  margin: 2em;
 
   .right-border {
     border-right: 5px solid var.$dark;
