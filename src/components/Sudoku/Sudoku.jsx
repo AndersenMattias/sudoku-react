@@ -21,6 +21,7 @@ const sudokuBoard = [
 const Sudoku = () => {
   // layout
   const [grid, setGrid] = useState();
+  // eslint-disable-next-line
   const [initialGrid, setInitialGrid] = useState(sudokuBoard);
   const [hintsTaken, setHintsTaken] = useState(0);
 
@@ -40,6 +41,7 @@ const Sudoku = () => {
 
     while (remainingTiles > 0) {
       for (let row = 0; row < copiedArr[0].length; row++) {
+        // eslint-disable-next-line
         let currentRow = copiedArr[row].map((col, colIdx) => {
           if (colIdx < 10) {
             let chance = Math.random() * 100;
