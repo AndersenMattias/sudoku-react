@@ -146,10 +146,10 @@ const Sudoku = () => {
         getHint();
         break;
 
-      case 'clear':
-        newGrid = GridLayout();
-        setGrid(newGrid);
+      case 'reset':
+        setGrid(null);
         setGameStarted(false);
+        setIsPlayerWon(!isPlayerWon);
         break;
 
       default:
@@ -158,10 +158,9 @@ const Sudoku = () => {
   }
 
   function playAgain() {
-    let newGrid = GridLayout();
     setGameWonModal(!showGameWonModal);
     setShowDifficultyModal(!showDifficultyModal);
-    setGrid(newGrid);
+    setGrid(null);
     setGameStarted(false);
   }
 
@@ -178,6 +177,7 @@ const Sudoku = () => {
 
       <GameBoard
         grid={grid}
+        isPlayerWon={isPlayerWon}
         onHandleChange={onHandleChange}
         correctInput={correctInput}
         setCorrectInput={setCorrectInput}
@@ -195,6 +195,7 @@ const Sudoku = () => {
 
       {gameStarted && (
         <ActionsButtons
+          isPlayerWon={isPlayerWon}
           onHandleBtnAction={onHandleBtnAction}
           showDifficultyModal={showDifficultyModal}
           setShowDifficultyModal={setShowDifficultyModal}

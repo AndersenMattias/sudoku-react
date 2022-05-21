@@ -13,13 +13,18 @@ const STYLES = [
   'btn--success--outline',
 ];
 
-const Button = ({ text, type, onClick, buttonStyle }) => {
+const Button = ({ disabled, text, type, onClick, buttonStyle }) => {
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle
     : STYLES[0];
 
   return (
-    <button className={`btn ${checkButtonStyle}`} onClick={onClick} type={type}>
+    <button
+      disabled={disabled}
+      className={`btn ${checkButtonStyle}`}
+      onClick={onClick}
+      type={type}
+    >
       {text}
     </button>
   );

@@ -3,7 +3,13 @@ import Tile from '../Tile';
 
 import '../../styles/gameBoard.scss';
 
-const GameBoard = ({ grid, onHandleChange, correctInput, setCorrectInput }) => {
+const GameBoard = ({
+  grid,
+  onHandleChange,
+  correctInput,
+  setCorrectInput,
+  isPlayerWon,
+}) => {
   if (grid == null) {
     return (
       <div className='board-wrapper'>
@@ -47,6 +53,7 @@ const GameBoard = ({ grid, onHandleChange, correctInput, setCorrectInput }) => {
                     {row.map((cell, columnIndex) => {
                       return (
                         <Tile
+                          isPlayerWon={isPlayerWon}
                           key={columnIndex}
                           grid={grid}
                           onHandleChange={onHandleChange}

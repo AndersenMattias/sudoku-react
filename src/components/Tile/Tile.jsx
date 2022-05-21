@@ -2,15 +2,7 @@ import React from 'react';
 
 import '../../styles/tile.scss';
 
-const Tile = ({
-  grid,
-  onHandleChange,
-  correctInput,
-  setCorrectInput,
-  cell,
-  row,
-  col,
-}) => {
+const Tile = ({ onHandleChange, correctInput, cell, row, col }) => {
   const getCellClassName = (cell) => {
     let className = `cell 
     ${cell === 0 ? 'cell-empty' : 'cell-initial'}

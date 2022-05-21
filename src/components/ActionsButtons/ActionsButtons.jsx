@@ -1,10 +1,11 @@
 import Button from 'components/Button';
 import React from 'react';
 
-const ActionsButtons = ({ onHandleBtnAction }) => {
+const ActionsButtons = ({ onHandleBtnAction, isPlayerWon }) => {
   return (
     <div className='sudoku-buttonsContainer'>
       <Button
+        disabled={isPlayerWon}
         buttonStyle='btn--warning'
         onClick={() => {
           onHandleBtnAction('hint');
@@ -13,6 +14,8 @@ const ActionsButtons = ({ onHandleBtnAction }) => {
       />
 
       <Button
+        disabled={isPlayerWon}
+        type='button'
         buttonStyle='btn--success'
         onClick={() => {
           onHandleBtnAction('solve');
@@ -21,11 +24,12 @@ const ActionsButtons = ({ onHandleBtnAction }) => {
       />
 
       <Button
+        type='button'
         buttonStyle='btn--danger'
         onClick={() => {
-          onHandleBtnAction('clear');
+          onHandleBtnAction('reset');
         }}
-        text='Reset Board'
+        text='Reset'
       />
     </div>
   );
