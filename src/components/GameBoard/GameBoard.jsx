@@ -1,7 +1,7 @@
 import React from 'react';
-import SudokuTile from '../SudokuTile';
+import Tile from '../Tile';
 
-import '../../styles/gameboard.scss';
+import '../../styles/gameBoard.scss';
 
 const GameBoard = ({ grid, onHandleChange, correctInput, setCorrectInput }) => {
   if (grid == null) {
@@ -21,7 +21,7 @@ const GameBoard = ({ grid, onHandleChange, correctInput, setCorrectInput }) => {
                         key={rowIndex + colIndex}
                         className={(col + 1) % 3 === 0 ? 'right-border' : ''}
                       >
-                        <input className='tile' disabled={true} />
+                        <input className='cell' disabled={true} />
                       </td>
                     );
                   })}
@@ -46,7 +46,7 @@ const GameBoard = ({ grid, onHandleChange, correctInput, setCorrectInput }) => {
                   >
                     {row.map((cell, columnIndex) => {
                       return (
-                        <SudokuTile
+                        <Tile
                           key={columnIndex}
                           grid={grid}
                           onHandleChange={onHandleChange}
