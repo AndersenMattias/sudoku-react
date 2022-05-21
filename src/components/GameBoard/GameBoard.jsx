@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from '../Tile';
 
-import '../../styles/gameBoard.scss';
+import '../../styles/gameboard.scss';
 
 const GameBoard = ({
   grid,
